@@ -1,6 +1,5 @@
-const loadAll = async(searchText = 'phone') => {
+const loadAll = async(searchText = 'iphone') => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
-    console.log(url);
     try {
         const res = await fetch(url);
         const data = await res.json();
@@ -11,8 +10,12 @@ const loadAll = async(searchText = 'phone') => {
 }
 const displayPhones = phones => {
     const phoneCont = document.getElementById('phones-container');
+    phoneCont.innerText='';
+    if(phones.length === 0){
+        phoneCont.innerHTML = `<img src="https://img.freepik.com/premium-vector/no-data-found-empty-file-folder-concept-design-vector-illustration_620585-1698.jpg" class="img-fluid mx-auto d-block mt-5" alt="No Data Found">`;
+        return;
+    }
     phones.forEach(phone => {
-        // console.log(phone);
         const phoneDiv = document.createElement('div');
         phoneDiv.classList.add('col');
         phoneDiv.innerHTML = `
@@ -28,4 +31,12 @@ const displayPhones = phones => {
     });
 }
 
+document.getElementById('btn-search').addEventListener('click',function(){
+    let searchVal = document.getElementById('search-field').value;
+    if(searchVal === ''){
+        return;
+    }
+    loadAll(searchVal);
+    document.getElementById('search-field').value = '';
+})
 loadAll();
