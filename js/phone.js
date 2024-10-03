@@ -10,10 +10,27 @@ const loadAll = async(searchText = 'iphone') => {
 }
 const displayPhones = phones => {
     const phoneCont = document.getElementById('phones-container');
+    const notFoundCont = document.getElementById('not-found-cont');
+    const btnShowAll = document.getElementById('btn-show-all');
     phoneCont.innerText='';
     if(phones.length === 0){
-        phoneCont.innerHTML = `<img src="https://img.freepik.com/premium-vector/no-data-found-empty-file-folder-concept-design-vector-illustration_620585-1698.jpg" class="img-fluid mx-auto d-block mt-5" alt="No Data Found">`;
-        return;
+        notFoundCont.classList.remove('d-none');
+        btnShowAll.classList.add('d-none');
+    }
+    else{
+        notFoundCont.classList.add('d-none');
+        if(phones.length >= 8){
+            // phones = phones.slice(0,8);
+            btnShowAll.classList.remove('d-none');
+            
+            btnShowAll.addEventListener('click',() => {
+                // phones = phones.slice(0,phones.length);
+                btnShowAll.classList.add('d-none');
+            })
+        }
+        else{
+            btnShowAll.classList.add('d-none');
+        }
     }
     phones.forEach(phone => {
         const phoneDiv = document.createElement('div');
@@ -31,7 +48,7 @@ const displayPhones = phones => {
     });
 }
 
-document.getElementById('btn-search').addEventListener('click',function(){
+document.getElementById('btn-search').addEventListener('click',() => {
     let searchVal = document.getElementById('search-field').value;
     if(searchVal === ''){
         return;
