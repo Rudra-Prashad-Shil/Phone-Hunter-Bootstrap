@@ -1,35 +1,35 @@
-const loadAll = async (searchText = 'iphone') => {
+const loadAll = async (searchText, dataLimit) => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
     try {
         const res = await fetch(url);
         const data = await res.json();
-        displayPhones(data.data);
+        displayPhones(data.data, dataLimit);
     } catch (error) {
         console.log(error);
     }
 }
-const displayPhones = phones => {
+const displayPhones = (phones, dataLimit) => {
     const phoneCont = document.getElementById('phones-container');
     const notFoundCont = document.getElementById('not-found-cont');
-    const btnShowAll = document.getElementById('btn-show-all');
+    const btnShowAll = document.getElementById('show-all');
     phoneCont.innerText = '';
+    console.log(dataLimit);////////////////
+
+    if (dataLimit && phones.length > 8) {
+        phones = phones.slice(0,8);
+        btnShowAll.classList.remove('d-none');
+        }
+    else {
+        btnShowAll.classList.add('d-none');
+    }
+
     if (phones.length === 0) {
         notFoundCont.classList.remove('d-none');
-        btnShowAll.classList.add('d-none');
     }
     else {
         notFoundCont.classList.add('d-none');
-        if (phones.length >= 8) {
-            btnShowAll.classList.remove('d-none');
-
-            btnShowAll.addEventListener('click', () => {
-                btnShowAll.classList.add('d-none');
-            })
-        }
-        else {
-            btnShowAll.classList.add('d-none');
-        }
     }
+
     spinnerTrigger(false);
     phones.forEach(phone => {
         const phoneDiv = document.createElement('div');
@@ -68,27 +68,24 @@ const displayPhones = phones => {
         phoneCont.appendChild(phoneDiv);
     });
 }
-
-//default homeLoad
-loadAll();
-
-
+    
+    
 //Click on Search
 document.getElementById('btn-search').addEventListener('click', () => {
-    searchProgress();
+    searchProgress(8);
 })
 //Enter keypress on Search
 document.getElementById('search-field').addEventListener('keyup', event => {
     if (event.key == 'Enter') {
-        searchProgress();
+        searchProgress(8);
     }
 })
 
 //Search Functionality
-const searchProgress = () => {
-    let searchVal = document.getElementById('search-field').value;
+const searchProgress = (dataLimit) => {
     spinnerTrigger(true);
-    loadAll(searchVal);
+    let searchVal = document.getElementById('search-field').value;
+    loadAll(searchVal, dataLimit);
     document.getElementById('search-field').value = '';
 }
 
@@ -135,3 +132,12 @@ const displayModalData = data =>{
     <p>USB: <span class="fw-bold">${data.others.USB}</span></p>
     `;
 }
+
+//
+document.getElementById('btn-show-all').addEventListener('click', () => {
+    searchProgress();
+})
+
+
+//default homeLoad
+loadAll('iphone');
