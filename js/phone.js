@@ -13,7 +13,6 @@ const displayPhones = (phones, dataLimit) => {
     const notFoundCont = document.getElementById('not-found-cont');
     const btnShowAll = document.getElementById('show-all');
     phoneCont.innerText = '';
-    console.log(dataLimit);////////////////
 
     if (dataLimit && phones.length > 8) {
         phones = phones.slice(0,8);
@@ -86,7 +85,6 @@ const searchProgress = (dataLimit) => {
     spinnerTrigger(true);
     let searchVal = document.getElementById('search-field').value;
     loadAll(searchVal, dataLimit);
-    document.getElementById('search-field').value = '';
 }
 
 //spinner Function
@@ -133,7 +131,7 @@ const displayModalData = data =>{
     `;
 }
 
-//
+//Show All button Functionality
 document.getElementById('btn-show-all').addEventListener('click', () => {
     searchProgress();
 })
