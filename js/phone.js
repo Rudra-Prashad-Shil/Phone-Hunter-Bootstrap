@@ -38,7 +38,7 @@ const displayPhones = (phones, dataLimit) => {
             <img src="${phone.image}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${phone.phone_name}</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text">Click Below for brief Information</p>
                 <!-- Button trigger modal -->
                 <button onclick="loadModaldet('${phone.slug}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#phone-details-modal">
                     See Details
